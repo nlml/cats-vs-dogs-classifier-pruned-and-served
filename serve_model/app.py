@@ -1,6 +1,7 @@
 from flask import Flask, url_for
 from flask import request
 from flask import json
+import torch
 
 
 app = Flask(__name__)
@@ -8,10 +9,13 @@ app = Flask(__name__)
 
 class Model():
     def __init__(self):
-        self.model = 1
+        self.model = torch.jit.load('final_pruned_model.pth')
 
     def classify_json_data(self, data):
-        return {'result': 'cat', 'confidence': 0.95}
+        with torch.no_grad():
+            out = self.model(torch.ones(1, 3, 224, 224))
+            out = out.cpu().numpy()
+        return {'result': out.tolist(), 'confidence': 0.95}
 
 
 model = Model()

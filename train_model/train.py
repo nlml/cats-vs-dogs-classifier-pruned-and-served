@@ -89,7 +89,6 @@ fname = Path(CHECKPOINTS_DIR) / 'trace_pre_pruning.pth'
 torch.jit.save(trace, str(fname))
 print(f'Saved to {fname} - Size: ' + sizeof_fmt(fname.stat().st_size))
 
-
 for i_pruning_round in range(NUM_PRUNING_ROUNDS):
     model = model.to(device)
     # Finetune the entire model on our cats/dogs dataset. Use a bit of L1 regularisation
@@ -127,7 +126,7 @@ for i_pruning_round in range(NUM_PRUNING_ROUNDS):
         # Prune out 5% of weights
         model = prune_squeezenet(model, PRUNING_FACTOR_PER_ROUND).to(device)
         print('Metrics after pruning:')
-        eval_model(device, model, loader, criterion,
-                   postproc=lambda x: F.log_softmax(x, dim=1))
+        nn_utils.eval_model(device, model, loader, criterion,
+                            postproc=lambda x: F.log_softmax(x, dim=1))
 
 copyfile(fname, Path('../final_pruned_model.pth'))
