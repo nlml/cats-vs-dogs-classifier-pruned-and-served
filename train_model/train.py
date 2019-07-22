@@ -12,6 +12,8 @@ import torch.nn.functional as F
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 from prune import prune_squeezenet
 import argparse
+from shutil import copyfile
+
 
 # Read in training parameters
 parser = argparse.ArgumentParser(description='PyTorch MNIST Example')
@@ -38,6 +40,12 @@ parser.add_argument('--pruning-factor-per-round', type=float, default=0.92,
                     help='Proportion of model weights remaining after a single pruning operation')
 parser.add_argument('--no-cuda', action='store_true', default=False,
                     help='disables CUDA training')
+parser.add_argument('--learning-rate', type=float, default=0.001, metavar='LR',
+                    help='learning rate (default: 0.001)')
+parser.add_argument('--momentum', type=float, default=0.9, metavar='M',
+                    help='SGD momentum (default: 0.9)')
+parser.add_argument('--l1-reg-weight', type=float, default=0.0001, metavar='L1',
+                    help='Weight on L1 regularisation penalty')
 args = parser.parse_args()
 
 # Set torch random seed and device
@@ -94,6 +102,7 @@ if not (phase_1_savepath).exists():
     print(f'Saved to {phase_1_savepath}')
 else:
     model.load_state_dict(torch.load(phase_1_savepath))
+    print(f'Loaded model from {phase_1_savepath}')
 
 # Save the trace pre-model pruning for size comparison
 model = model.cpu().eval()
@@ -105,13 +114,13 @@ print(f'Saved to {fname} - Size: ' + sizeof_fmt(fname.stat().st_size))
 # Now we begin the main fine-tuning / pruning process
 # We train 10 'pruning rounds' - in each round we train for some epochs,
 # then at the end of the round we prune some of the weights from the model.
-for i_pruning_round in range(1, args.num_pruning_rounds):
+for i_pruning_round in range(args.num_pruning_rounds):
     model = model.to(device)
 
     # Finetune the entire model on our cats/dogs dataset. Use a bit of L1 regularisation
     # to encourage weights to go to 0, which should help with pruning.
-    l1_reg = 0.0001 * (args.num_pruning_rounds - i_pruning_round) / args.num_pruning_rounds
-    optimizer = SGDL1(model.parameters(), 0.001, momentum=0.9, weight_decay=l1_reg)
+    l1_reg = args.l1_reg_weight * (args.num_pruning_rounds - i_pruning_round) / args.num_pruning_rounds
+    optimizer = SGDL1(model.parameters(), args.learning_rate, momentum=args.momentum, weight_decay=l1_reg)
     criterion = nn.NLLLoss()
     scheduler = ReduceLROnPlateau(
         optimizer, factor=0.5, patience=2, cooldown=0, verbose=True)

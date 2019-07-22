@@ -5,6 +5,10 @@ import os
 import numpy as np
 from multiprocessing import cpu_count
 from torch.utils.data import DataLoader
+import warnings
+
+# Ignore annoying PIL warnings 
+warnings.filterwarnings("ignore", "(Possibly )?corrupt EXIF data", UserWarning)
 
 
 def split_dataset(dataset_dir, rng, p_train, p_val, p_test):

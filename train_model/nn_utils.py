@@ -11,6 +11,7 @@ def seed_everything(seed):
 
 
 def pretrained_squeezenet_with_two_output_classes():
+    # Get the pretrained squeezenet and replace its output layer for just 2 classes
     model = models.squeezenet1_0(pretrained=True)
     model.classifier = nn.Sequential(
         nn.Dropout(0.5),
