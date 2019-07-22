@@ -1,5 +1,7 @@
 # Cats vs. Dogs Classifier with Model Pruning and Deployment
 
+![](https://raw.githubusercontent.com/nlml/cats-vs-dogs-classifier-pruned-and-served/master/cat.jpg) ![](https://raw.githubusercontent.com/nlml/cats-vs-dogs-classifier-pruned-and-served/master/dog.jpg)
+
 In this repo, we:
 
 - Finetune a Squeezenet trained on Imagenet to specialise in classifying cats versus dogs,
