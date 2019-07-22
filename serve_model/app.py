@@ -34,10 +34,10 @@ def upload_and_predict():
         for i in os.listdir('/app/static'):
             if i.startswith('uploaded_img'):
                 os.remove(os.path.join('/app/static', i))
-        uploaded_img_fname = f'uploaded_img.{ext}'
+        t = int(time())
+        uploaded_img_fname = f'uploaded_img_{t}.{ext}'
         shutil.copyfile(fname, f'/app/static/{uploaded_img_fname}')
         os.remove(fname)
-        t = int(time())
         return '''
             <!DOCTYPE html>
             <html>

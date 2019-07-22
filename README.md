@@ -34,7 +34,7 @@ python train.py
 
 You should get around 98% final validation accuracy.
 
-## Model serving
+## Serving the model
 
 ### Preparation
 
@@ -118,5 +118,5 @@ You could also use `curl`, for instance (with some fake data):
 ```
 curl localhost:5000/classify -d '{"tensor": [[[0.0, 0.0, 0.0, 0.0], [0.0, 1.0, 1.0, 0.0], [0.0, 0.0, 0.0, 0.0]], [[0.0, 1.0, 1.0, 0.0], [0.0, 0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 0.0]], [[0.0, 0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 0.0]]]}' -H 'Content-Type: application/json'
 
-{"predictions": [[0.7711397409439087, 0.2288602739572525]], "classes": ["Cat", "Dog"]}
+{"predictions": [[0.7564941048622131, 0.24350589513778687]], "classes": ["Cat", "Dog"]}
 ```
