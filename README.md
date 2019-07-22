@@ -2,11 +2,11 @@
 
 In this repo, we:
 
-- Finetune a Squeezenet trained on Imagenet to specialise in classifying cats versus dogs
+- Finetune a Squeezenet trained on Imagenet to specialise in classifying cats versus dogs,
 
-- Iteratively prune this finetuned model, reducing its size to 1.7MiB from 2.9MiB while still maintaining the 98 per cent accuracy rate achieved before any pruning
+- Iteratively prune this finetuned model, reducing its size from 2.9MiB to 1.7MiB while still maintaining the 98 per cent accuracy rate achieved before any pruning,
 
-- Host the model using Flask and Docker.
+- Serve this pruned model for prediction using Flask and Docker.
 
 All of these steps are reproducible following the instructions below.
 
@@ -34,7 +34,7 @@ You should get around 98% final validation accuracy.
 
 ## Model serving
 
-You will need `nvidia-docker` installed if you want to use GPU, otherwise just `docker`.
+### Preparation
 
 After training the model, the final weights will be saved to `final_pruned_model.pth` in the repo root. You need to copy these to the `serve_model` folder:
 
@@ -45,14 +45,21 @@ cp final_pruned_model.pth serve_model/
 
 Once that's done, you just need to build the image and run it.
 
+You will need `nvidia-docker` installed if you want to use GPU, otherwise just `docker`. If you want to use just CPU instead of GPU, replace `FROM ufoym/deepo:pytorch-py36-cu100` with `FROM ufoym/deepo:pytorch-py36-cpu` in the first line of `serve_model/Dockerfile`.
+
+Last step is to build and run the image:
+
 ```
+cd /path/to/repo/serve_model
 nvidia-docker build -t cats-vs-dogs .
 nvidia-docker run -p 5000:5000 cats-vs-dogs
 ```
 
-Then, point your browser to http://localhost:5000/upload where you can upload an image to classify through the model.
+### /upload classification UI endpoint
 
-Note: if you want to use just CPU and `docker` instead of GPU and `nvidia-docker`, replace `FROM ufoym/deepo:pytorch-py36-cu100` with `FROM ufoym/deepo:pytorch-py36-cpu` in the first line of `serve_model/Dockerfile`.
+Point your browser to http://localhost:5000/upload where you can upload an image to classify through the model.
+
+### /classify POST endpoint
 
 You can also use `localhost:5000/classify` endpoint to POST data to be classified. It accepts JSON format data and binary data.
 
