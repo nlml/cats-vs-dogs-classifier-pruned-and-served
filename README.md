@@ -63,7 +63,7 @@ Point your browser to http://localhost:5000/upload where you can upload an image
 
 You can also use `localhost:5000/classify` endpoint to POST data to be classified. It accepts JSON format data and binary data.
 
-Here is an example of how you might POST some binary data in Python:
+Here is an example of how you might post some binary data in Python:
 
 ```
 import requests
@@ -81,7 +81,7 @@ Out[1]: {'predictions': [[3.103691051364876e-05, 0.9999690055847168]],
 	     'classes': ['Cat', 'Dog']}
 ```
 
-Here is an example of how you might POST some JSON data in Python:
+Here is an example of how you might post some JSON data in Python:
 
 ```
 import torch
