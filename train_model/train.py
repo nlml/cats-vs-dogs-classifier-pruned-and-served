@@ -37,7 +37,7 @@ parser.add_argument('--num-pruning-rounds', type=int, default=10,
 parser.add_argument('--num-epochs-per-pruning-round', type=int, default=10,
                     help='how many epochs to train for in each pruning round')
 parser.add_argument('--pruning-factor-per-round', type=float, default=0.92,
-                    help='Proportion of model weights remaining after a single pruning operation')
+                    help='Proportion of model weights remaining after a single prune')
 parser.add_argument('--no-cuda', action='store_true', default=False,
                     help='disables CUDA training')
 parser.add_argument('--learning-rate', type=float, default=0.001, metavar='LR',
@@ -119,8 +119,10 @@ for i_pruning_round in range(args.num_pruning_rounds):
 
     # Finetune the entire model on our cats/dogs dataset. Use a bit of L1 regularisation
     # to encourage weights to go to 0, which should help with pruning.
-    l1_reg = args.l1_reg_weight * (args.num_pruning_rounds - i_pruning_round) / args.num_pruning_rounds
-    optimizer = SGDL1(model.parameters(), args.learning_rate, momentum=args.momentum, weight_decay=l1_reg)
+    l1_reg = args.l1_reg_weight * (
+        args.num_pruning_rounds - i_pruning_round) / args.num_pruning_rounds
+    optimizer = SGDL1(
+        model.parameters(), args.learning_rate, momentum=args.momentum, weight_decay=l1_reg)
     criterion = nn.NLLLoss()
     scheduler = ReduceLROnPlateau(
         optimizer, factor=0.5, patience=2, cooldown=0, verbose=True)
