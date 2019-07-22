@@ -34,7 +34,7 @@ nn_utils.seed_everything(SEED)
 device = 'cuda' if torch.cuda.is_available() and USE_CUDA else 'cpu'
 
 data_dir = Path(DATA_DIR)
-if not data_dir.exists():
+if not (data_dir / 'PetImages').exists():
     data_dir.mkdir(parents=True, exist_ok=True)
     download_and_unzip_from_url(DATASET_URL, data_dir)
 

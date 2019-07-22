@@ -2,7 +2,6 @@ from fastprogress import progress_bar, master_bar
 import torch
 import torchvision.models as models
 import torch.nn as nn
-import torch.nn.functional as F
 
 
 def seed_everything(seed):
