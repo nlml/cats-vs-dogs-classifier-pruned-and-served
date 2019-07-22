@@ -1,6 +1,6 @@
 # Cats vs. Dogs Classifier with Model Pruning and Deployment
 
-![](cat.png) ![](dog.png)
+![](https://raw.githubusercontent.com/nlml/cats-vs-dogs-classifier-pruned-and-served/master/cat.jpg) ![](https://raw.githubusercontent.com/nlml/cats-vs-dogs-classifier-pruned-and-served/master/dog.jpg)
 
 In this repo, we:
 
