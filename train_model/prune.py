@@ -2,6 +2,8 @@ import torch
 
 
 def prune_conv_layer(conv, keep=None, p_keep=1.0):
+    # General function to return a pruned version of the input conv layer,
+    # plus the indices of the weights that were pruned.
     sd = conv.state_dict()
     if keep is not None:
         sd['weight'] = sd['weight'][:, keep]
@@ -27,6 +29,9 @@ def prune_conv_layer(conv, keep=None, p_keep=1.0):
 
 
 def prune_fire_layer(fire, keep, p_keep, prune_output_shape=True):
+    # This prunes (1 - p_keep) of the output weights from the expand1x1
+    # and expand3x3 layers of a 'Fire' layer in the SqueezeNet architecture.
+    # It also prunes the input weights if the previous layer's output was pruned.
     expand1x1_planes = fire.expand1x1.weight.shape[0]
     fire.squeeze, _ = prune_conv_layer(fire.squeeze, keep, 1.0)
     if prune_output_shape:
@@ -39,6 +44,7 @@ def prune_fire_layer(fire, keep, p_keep, prune_output_shape=True):
 
 
 def prune_squeezenet(model, p_keep):
+    # Prunes (1 - p_keep) of weights from a SqueezeNet model.
     keep = None
     num_fire, count = 0, 0
     for fire in model.features:

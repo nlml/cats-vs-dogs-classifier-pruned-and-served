@@ -29,6 +29,7 @@ class SGDL1(SGD):
                     continue
                 d_p = p.grad.data
                 if weight_decay != 0:
+                    # Modification made here to change weight decay to L1 regularisation.
                     d_p.add_(weight_decay, torch.sign(p.data))
                 if momentum != 0:
                     param_state = self.state[p]

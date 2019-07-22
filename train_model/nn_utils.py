@@ -92,6 +92,6 @@ def train_model(device, model, dataloaders, criterion, optimizer,
 
 def eval_model(device, model, loader, criterion, postproc=None, phases=['val'], optimizer=None):
     if optimizer is None:
-        optimizer = torch.optim.SGD([], 1e-8)
+        optimizer = torch.optim.SGD(model.parameters(), 0.0)
     return train_model(device, model, loader, criterion, optimizer,
                        num_epochs=1, postproc=postproc, phases=phases)
