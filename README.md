@@ -61,6 +61,8 @@ nvidia-docker run -p 5000:5000 cats-vs-dogs
 
 Point your browser to http://localhost:5000/upload where you can upload an image to classify through the model.
 
+If you are seeing the wrong images after uploading a few, try hard-refreshing the /uploader page (Ctrl+Shift+R) or clearing your browser cache.
+
 ### /classify POST endpoint
 
 You can also use `localhost:5000/classify` endpoint to POST data to be classified. It accepts JSON format data and binary data.
