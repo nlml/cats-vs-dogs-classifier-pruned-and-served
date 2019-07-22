@@ -1,5 +1,7 @@
 # Cats vs. Dogs Classifier with Model Pruning and Deployment
 
+![](cat.png) ![](dog.png)
+
 In this repo, we:
 
 - Finetune a Squeezenet trained on Imagenet to specialise in classifying cats versus dogs,
