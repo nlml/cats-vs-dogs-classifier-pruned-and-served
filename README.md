@@ -17,7 +17,7 @@ All of these steps are reproducible following the instructions below.
 You will need `unzip` and `jhead` installed to unzip and prepare the cats vs. dogs dataset.
 
 ```
-sudo apt-get update && apt-get install -y unzip jhead
+sudo apt-get update && sudo apt-get install -y unzip jhead
 ```
 
 Then to train the model:
