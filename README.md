@@ -4,7 +4,7 @@
 
 In this repo, we:
 
-- Finetune a Squeezenet trained on Imagenet to specialise in classifying cats versus dogs,
+- Finetune a Squeezenet trained on Imagenet to specialise in classifying cats versus dogs (using a novel implementation of L1 regularisation),
 
 - Iteratively prune this finetuned model, reducing its size from 2.9MiB to 1.7MiB while still maintaining the 98 per cent accuracy rate achieved before any pruning,
 
